@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  # mysql:
+  #   image: mysql
+  #   environment: 
+  #     MYSQL_ROOT_PASSWORD: password
+  #   volumes:
+  #     -  ~/Desktop/kafka_connect/mysql.cnf:/etc/mysql/conf.d/mysql.cnf
+  #     -  ~/Desktop/kafka_connect/test_db:/test_db
+  #   ports: 
+  #     - 3306:3306
+  zookeeper:
+    image: confluentinc/cp-zookeeper
+    environment: 
+      ZOOKEEPER_CLIENT_PORT: 2181
+  kafka:
+    image: confluentinc/cp-kafka
+    depends_on: 
+      - zookeeper
+    environment: 
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: INTERNAL://kafka:29092, EXTERNAL://kafka:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INTERNAL:PLAINTEXT, EXTERNAL:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    ports: 
+      - 9092:9092
+  kafkaconnect:
+    image: debezium/connect
+    depends_on: 
+      # - mysql
+      - kafka
+    environment: 
+      BOOTSTRAP_SERVERS: kafka:29092
+      GROUP_ID: 1
+      CONFIG_STORAGE_TOPIC: kafka_connect_configs
+      OFFSET_STORAGE_TOPIC: kafka_connect_offsets
+      STATUS_STORAGE_TOPIC: kafka_connect_statuses
+      CONFIG_STORAGE_REPLICATION_FACTOR: "1"
+      OFFSET_STORAGE_REPLICATION_FACTOR: "1"
+      STATUS_STORAGE_REPLICATION_FACTOR: "1"
+    ports: 
+      - 8083:8083
