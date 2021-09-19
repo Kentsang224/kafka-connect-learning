@@ -42,7 +42,7 @@ kafka-consumer-groups --bootstrap-server localhost:9092 --all-group --describe
 kafka-console-consumer --bootstrap-server localhost:9092 --topic topic --from-beginning
 ```
 ### Kafka Connect
-1. Add New Connector Task
+1. Add New Connector Task (Specific to debezium)
 ```
 curl POST 'http://localhost:8083/connectors' \
 --header 'Content-Type: application/json' \
@@ -65,7 +65,7 @@ curl POST 'http://localhost:8083/connectors' \
     }
 }'
 ```
-2. Update the exisiting config
+2. Update the exisiting config (Specific to debezium)
 ```
 curl PUT 'http://localhost:8083/connectors/{name of the connector}/config' \
 --header 'Content-Type: application/json' \
