@@ -1,6 +1,8 @@
 # kafka-connect-demo
 There are many connector developed by other party. This demo will use debezium, a MySql connector, as an example. The image that we use already comes with the connector plug-in. Otherwise, we need to download the connector jar, and place it in the designated folder.
 
+* Data Set is from mysql (https://github.com/datacharmer/test_db)
+
 > When you start your Connect workers, each worker discovers all connectors, transforms, and converter plugins found inside the directories on the **plugin path**. When you use a connector, transform, or converter, the Connect worker loads the classes from the respective plugin first, followed by the Kafka Connect runtime and Java libraries. Connect explicitly avoids all of the libraries in other plugins. This prevents conflicts and makes it very easy to add and use connectors and transforms developed by different providers. (https://docs.confluent.io/platform/current/connect/userguide.html)
 
 ## Setting Up MySql
