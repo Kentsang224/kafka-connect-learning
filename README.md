@@ -31,17 +31,25 @@ kafka-topics --bootstrap-server localhost:9092 --list
 ```
 2. Describe Topic
 ```
-kafka-topics --topic someTopic --bootstrap-server localhost:9092 --describe
+kafka-topics --topic {someTopic} --bootstrap-server localhost:9092 --describe
 ```
 3. Check Partition Offset
 ```
-kafka-consumer-groups --bootstrap-server localhost:9092 --group group --describe
+kafka-consumer-groups --bootstrap-server localhost:9092 --group {group} --describe
 
-kafka-consumer-groups --bootstrap-server localhost:9092 --all-group --describe
+kafka-consumer-groups --bootstrap-server localhost:9092 --all-groups --describe
 ```
-4. Consume Topic
+4. Create Topic
 ```
-kafka-console-consumer --bootstrap-server localhost:9092 --topic topic --from-beginning
+kafka-topics --bootstrap-server localhost:9092 --topic {topic} --create --replication-factor 1 --partitions 6
+```
+5. Produce Record
+```
+kafka-console-producer --bootstrap-server localhost:9092 --topic {topic} --property key.separator=: --property parse.key=true
+```
+6. Consume Topic
+```
+kafka-console-consumer --bootstrap-server localhost:9092 --topic {topic} --from-beginning
 ```
 ### Kafka Connect
 1. Add New Connector Task (Specific to debezium)
